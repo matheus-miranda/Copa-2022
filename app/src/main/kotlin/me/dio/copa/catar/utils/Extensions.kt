@@ -1,4 +1,4 @@
-package me.dio.copa.catar.extensions
+package me.dio.copa.catar.utils
 
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
