@@ -160,8 +160,8 @@ fun PreviewMainScreen() {
             id = "",
             name = "Final",
             stadium = Stadium(
-                name = "Catar Stadim",
-                image = "https://digitalinnovationone.github.io/copa-2022-android/statics/lusali-stadium.png"
+                name = "",
+                image = ""
             ),
             team1 = Team(flag = "BR", displayName = "BRA"),
             team2 = Team(flag = "AR", displayName = "ARG"),
