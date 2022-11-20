@@ -41,14 +41,17 @@ import me.dio.copa.catar.ui.theme.Shapes
 import me.dio.copa.catar.utils.DarkThemePreview
 import java.time.LocalDateTime
 
+typealias NotificationOnClick = (match: MatchDomain) -> Unit
+
 @Composable
 fun MainScreen(viewModel: MainViewModel = hiltViewModel()) {
     val uiState by viewModel.state.collectAsState()
-    MainScreen(uiState.matches)
+    MainScreen(uiState.matches, viewModel::toggleNotification)
 }
 
+
 @Composable
-fun MainScreen(matches: List<MatchDomain>) {
+fun MainScreen(matches: List<MatchDomain>, onNotificationClick: NotificationOnClick) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -56,14 +59,14 @@ fun MainScreen(matches: List<MatchDomain>) {
     ) {
         LazyColumn(verticalArrangement = Arrangement.spacedBy(8.dp)) {
             items(matches) { match ->
-                MatchInfo(match)
+                MatchInfo(match, onNotificationClick)
             }
         }
     }
 }
 
 @Composable
-fun MatchInfo(match: MatchDomain) {
+fun MatchInfo(match: MatchDomain, onNotificationClick: NotificationOnClick) {
     Card(
         shape = Shapes.large,
         modifier = Modifier.fillMaxWidth()
@@ -77,7 +80,7 @@ fun MatchInfo(match: MatchDomain) {
             )
 
             Column(modifier = Modifier.padding(16.dp)) {
-                Notification(match)
+                Notification(match, onNotificationClick)
                 Title(match)
                 Teams(match)
             }
@@ -86,7 +89,7 @@ fun MatchInfo(match: MatchDomain) {
 }
 
 @Composable
-fun Notification(match: MatchDomain) {
+fun Notification(match: MatchDomain, onClick: NotificationOnClick) {
     Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
         val drawable = if (match.notificationEnabled) R.drawable.ic_notifications_active
         else R.drawable.ic_notifications
@@ -94,7 +97,7 @@ fun Notification(match: MatchDomain) {
         Image(
             painter = painterResource(id = drawable),
             modifier = Modifier.clickable {
-                // onClick(match)
+                onClick(match)
             },
             contentDescription = null
         )
@@ -171,6 +174,6 @@ fun PreviewMainScreen() {
     )
 
     Copa2022Theme {
-        MainScreen(matches = matches)
+        MainScreen(matches = matches, onNotificationClick = {})
     }
 }
